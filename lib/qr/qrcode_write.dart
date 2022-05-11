@@ -44,6 +44,19 @@ class _QrWriteState extends State<QrWrite> {
   Widget build(BuildContext context) {
     var contractLink = Provider.of<ContractLink>(context);
     return Scaffold(
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(65),
+        child: AppBar(
+          title: Text("Qr-Code",style: TextStyle(color: Colors.white,fontSize: 25),),
+          backgroundColor: Colors.black45,
+          centerTitle: true,
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.vertical(
+                  bottom: Radius.circular(20)
+              )
+          ),
+        ),
+      ),
       body: Container(
         padding: const EdgeInsets.symmetric(horizontal: 10),
         child: Center(
@@ -263,12 +276,6 @@ class _QrWriteState extends State<QrWrite> {
                               )
                           ),
 
-                          // Container(
-                          //   child: Text("Please Wait Patiently! Once Data is Stored\nIt will Generate New QR Code for your product!",style: TextStyle(fontSize: 20,color: Colors.white)) ,
-                          //   alignment: Alignment.bottomCenter,
-                          //   padding: EdgeInsets.all(10),
-                          // ),
-
                         ],
                       )
                   ),
@@ -304,50 +311,16 @@ class _QrWriteState extends State<QrWrite> {
                       // width: 250,
                       padding: EdgeInsets.all(0),
                       child: FlatButton(onPressed: () async{
-                        // _capturePng();
-                        // screenshotController.capture().then((Uint8List? imageFile) async {
-                        //   setState(() {
-                        //     Image.memory(imageFile!);
-                        //     _imageFile=File.fromRawPath(imageFile!);
-                        //   });
-                        //   print("uinttttttttttttttttttttttttttt");
-                        //   print(imageFile);
-                        //
-                        //   try {
-                        //     bool isGranted = await Permission.storage.isGranted;
-                        //     if (isGranted) {
-                        //       _saveToGallery(_imageFile);
-                        //     } else {
-                        //       // Ask Permission
-                        //       PermissionStatus status = await Permission.storage.request();
-                        //       switch (status) {
-                        //         case PermissionStatus.limited:
-                        //           break;
-                        //         case PermissionStatus.granted:
-                        //           _saveToGallery(_imageFile);
-                        //           break;
-                        //         case PermissionStatus.denied:
-                        //           debugPrint("Storage permission required to Save Image");
-                        //           break;
-                        //         case PermissionStatus.permanentlyDenied:
-                        //         case PermissionStatus.restricted:
-                        //           debugPrint("Storage permission required to Save Image, allow permissions in Settings");
-                        //           break;
-                        //       }
-                        //     }
-                        //   } catch (exp) {
-                        //     debugPrint("Storage Permission Error ${exp.toString()}");
-                        //   }
-                        // }).catchError((err) {
-                        //   debugPrint("Image catchError ${err.toString()}");
-                        // });
                         final image= await screenshotController.capture();
                         if (image==null){
                           print("errorrrrr!!!!!!!");
                           return;
                         }
                         await saveImage(image);
-                      }, child: Text("Save Qr-Code\nTo gallery"),color: Colors.redAccent,)
+                      }, child: Padding(
+                        padding: const EdgeInsets.all(3.0),
+                        child: Text("Save \nQr-Code\nTo gallery"),
+                      ),color: Colors.redAccent,)
                     ),
                   ],
                 )
@@ -359,18 +332,7 @@ class _QrWriteState extends State<QrWrite> {
       ),
     );
   }
-  // Future<void> _saveToGallery(File imageFile) async {
-  //   try {
-  //     await ImageGallerySaver.saveImage(imageFile.readAsBytesSync());
-  //     // await ImageGallerySaver.saveImage(imageFile.readAsBytesSync());
-  //     print(imageFile.readAsBytes());
-  //     debugPrint("Image Stored Successfully !!");
-  //   } on Exception catch (exp) {
-  //     print("helllllloooooo");
-  //     print(imageFile.readAsBytes());
-  //     debugPrint("Image Exception ${exp.toString()}");
-  //   }
-  // }
+
 
     Future<String> saveImage(Uint8List bytes) async{
     await [Permission.speech].request();
@@ -381,31 +343,7 @@ class _QrWriteState extends State<QrWrite> {
      final result= await ImageGallerySaver.saveImage(bytes,name: name);
      return result['filepath'];
     }
-//   Future<Uint8List> _capturePng() async {
-//     try {
-//       print('inside');
-//       var inside = true;
-//       RenderObject? boundary =
-//       _globalKey.currentContext!.findRenderObject();
-//       ui.Image image = await boundary!;
-//       ByteData? byteData =
-//       await image.toByteData(format: ui.ImageByteFormat.png);
-//       Uint8List pngBytes = byteData!.buffer.asUint8List();
-// //create file
-//       final String dir = (await getApplicationDocumentsDirectory()).path;
-//       imagePath = '$dir/file_name${DateTime.now()}.png';
-//       capturedFile = File(imagePath);
-//       await capturedFile.writeAsBytes(pngBytes);
-//       print(capturedFile.path);
-//       final result = await ImageGallerySaver.saveImage(pngBytes,
-//           quality: 60, name: "file_name${DateTime.now()}");
-//       print(result);
-//       print('png done');
-//       return pngBytes;
-//     } catch (e) {
-//       print(e);
-//     }
-//   }
+
 }
 
 

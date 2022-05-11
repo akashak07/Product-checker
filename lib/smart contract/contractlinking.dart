@@ -10,10 +10,10 @@ import 'dart:convert';
 
 class ContractLink extends ChangeNotifier{
 
-  final String _rpcURl = "HTTP://192.168.10.43:7545";
-  final String _wsURl = "ws://192.168.10.43192.168.10.43:7545/";
+  final String _rpcURl = "HTTP://192.168.168.43:7545";
+  final String _wsURl = "ws://192.168.168.43:7545/";
   final String _privateKey =
-      "345460e7f0fe91f93bcc91a8fcae3135fc5bece1d31c67db9a1a06889fa763cf";
+      "9d5bbb1497f34302a7a9fae890757493bc10d18e8beb4aa4882291e66a7d61e8";
   late Web3Client _client;
   late String _abiCode;
   late EthereumAddress _contractAddress;
@@ -24,6 +24,7 @@ class ContractLink extends ChangeNotifier{
   String? deployeprice;
   String? deployedloca;
   String? deployeddate;
+
 
 
 

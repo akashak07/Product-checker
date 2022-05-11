@@ -73,6 +73,19 @@ class _RecordFormPageState extends State<RecordFormPage> {
   Widget build(BuildContext context) {
     var contractLink = Provider.of<ContractLink>(context);
     return Scaffold(
+        appBar: PreferredSize(
+        preferredSize: Size.fromHeight(65),
+              child: AppBar(
+              title: Text("NFC-Tag",style: TextStyle(color: Colors.white,fontSize: 25),),
+              backgroundColor: Colors.black45,
+              centerTitle: true,
+              shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.vertical(
+              bottom: Radius.circular(20)
+              )
+              ),
+              ),
+        ),
       body: Container(
         padding: const EdgeInsets.symmetric(horizontal: 10),
         child: Center(
@@ -84,7 +97,7 @@ class _RecordFormPageState extends State<RecordFormPage> {
               children: <Widget>[
                 Container(
                   padding: EdgeInsets.all(5),
-                  height:800,
+                  height:830,
                   width: double.maxFinite,
                   child: Card(
                       semanticContainer: true,
@@ -254,22 +267,79 @@ class _RecordFormPageState extends State<RecordFormPage> {
                                         await contractLink.addlocation(location.text);
                                         await contractLink.addprice(price.text);
                                         await contractLink.adddate(date.text);
-                                        var n=name.text;
-                                        var pr=price.text;
-                                        var pd=date.text;
-                                        var pl=location.text;
 
-                                        out='{"name":"$n","price":"$pr","date":"$pd","place":"$pl"}';
-                                        print(out);
-                                        _addrecord();
-                                        _records.length > 0 ? () => _write(context) : null;
-
-                                        name.clear();
-                                        location.clear();
-                                        price.clear();
-                                        date.clear();
 
                                       },
+                                      style: ElevatedButton.styleFrom(
+                                        primary: Colors.red,
+                                        onPrimary: Colors.white,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(20.0),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+
+                                  // Container(
+                                  //   padding: EdgeInsets.fromLTRB(10, 35, 10, 0),
+                                  //   child: ElevatedButton(
+                                  //     child: Text("Click To store data in NFC",style: TextStyle(fontSize: 18),),
+                                  //     onPressed: () {
+                                  //       var n=name.text;
+                                  //       var pr=price.text;
+                                  //       var pd=date.text;
+                                  //       var pl=location.text;
+                                  //
+                                  //       out='{"name":"$n","price":"$pr","date":"$pd","place":"$pl"}';
+                                  //       print(out);
+                                  //     },
+                                  //     style: ElevatedButton.styleFrom(
+                                  //       primary: Colors.red,
+                                  //       onPrimary: Colors.white,
+                                  //       shape: RoundedRectangleBorder(
+                                  //         borderRadius: BorderRadius.circular(20.0),
+                                  //       ),
+                                  //     ),
+                                  //   ),
+                                  // ),
+                                  Center(
+                                    child: ElevatedButton(
+                                        child: const Text("Convert Data to Nfc Text Data"),
+                                        onPressed: (){
+                                          var n=name.text;
+                                          var pr=price.text;
+                                          var pd=date.text;
+                                          var pl=location.text;
+
+                                          out='{"name":"$n","price":"$pr","date":"$pd","place":"$pl"}';
+                                          print(out);
+                                        },
+                                      style: ElevatedButton.styleFrom(
+                                        primary: Colors.red,
+                                        onPrimary: Colors.white,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(20.0),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Center(
+                                    child: ElevatedButton(
+                                      child: const Text("Add Data to NFC Tag"),
+                                      onPressed: _addrecord,
+                                      style: ElevatedButton.styleFrom(
+                                        primary: Colors.red,
+                                        onPrimary: Colors.white,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(20.0),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Center(
+                                    child: ElevatedButton(
+                                      child: const Text("Write to NFC Tag"),
+                                      onPressed: _records.length > 0 ? () => _write(context) : null,
                                       style: ElevatedButton.styleFrom(
                                         primary: Colors.red,
                                         onPrimary: Colors.white,

@@ -13,24 +13,60 @@ class ScanQR extends StatefulWidget {
 
 class _ScanQRState extends State<ScanQR> {
   String result = '{"name":" ","price":" ","date":" ","place":" "}';
+  bool isgenunie=true;
+
+
+
   Future _scanQR() async {
     try {
       String cameraScanResult = await scanner.scan();
       setState(() {
         result = cameraScanResult;
+        if (result == "No data to show"){
+          MyAlert();
+        }
         // setting string result with cameraScanResult
       });
     } on PlatformException catch (e) {
       print(e);
+      return MyAlert();
+
+    }
+  }
+  bool? gcheck(var dict,String name,String date,String place,String price){
+    if (dict==null){
+      print("no good");
+      setState(() {
+        isgenunie=true;
+      });
+    }
+    else{
+      if(name==null || date==null || price==null || place==null ){
+        print("no good");
+        setState(() {
+          isgenunie=true;
+        });
+      }
     }
   }
 
   @override
   Widget build(BuildContext context) {
     var dict=json.decode(result);
+
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Scan Product"),
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(65),
+        child: AppBar(
+          title: Text("Scan-QR",style: TextStyle(color: Colors.white,fontSize: 25),),
+          backgroundColor: Colors.black45,
+          centerTitle: true,
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.vertical(
+                  bottom: Radius.circular(20)
+              )
+          ),
+        ),
       ),
       body:  Column(
         children: [
@@ -79,7 +115,7 @@ class _ScanQRState extends State<ScanQR> {
           ),
           Container(
             padding: EdgeInsets.all(5),
-            height:500,
+            height:450,
             width: double.maxFinite,
             child: Card(
                 semanticContainer: true,
@@ -168,6 +204,16 @@ class _ScanQRState extends State<ScanQR> {
                               child: Text(dict['place'],style: TextStyle(fontSize: 20,color: Colors.black,fontWeight: FontWeight.bold)) ,
                             ),
 
+                            // Container(
+                            //   alignment: Alignment.topLeft,
+                            //   padding: EdgeInsets.all(10),
+                            //   child: Text("Product Genunity:",style: TextStyle(fontSize: 20,color: Colors.white,fontWeight: FontWeight.bold)) ,
+                            // ),
+                            // Container(
+                            //   alignment: Alignment.topLeft,
+                            //   padding: EdgeInsets.all(10),
+                            //   child: Text(isgenunie==false ? "no Good" : " Good",style: TextStyle(fontSize: 20,color: Colors.black,fontWeight: FontWeight.bold)) ,
+                            // ),
                           ],
                         )
                     ),
@@ -179,13 +225,56 @@ class _ScanQRState extends State<ScanQR> {
         ],
       ),
       floatingActionButton: FloatingActionButton.extended(
-          icon: Icon(Icons.camera_alt),
+          icon: Icon(Icons.qr_code_scanner_rounded),
           onPressed: () {
-            _scanQR(); // calling a function when user click on button
+            _scanQR();
+
+            gcheck(dict, dict['name'], dict['date'], dict['place'], dict['price']);// calling a function when user click on button
           },
-          label: Text("Scan")),
+          label: Text("Scan QR")),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }
 
+class MyAlert extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(20.0),
+      child: RaisedButton(
+        child: Text('Show alert'),
+        onPressed: () {
+          showAlertDialog(context);
+        },
+      ),
+    );
+  }
+}
+
+showAlertDialog(BuildContext context) {
+  // Create button
+  Widget okButton = FlatButton(
+    child: Text("OK"),
+    onPressed: () {
+      Navigator.of(context).pop();
+    },
+  );
+
+  // Create AlertDialog
+  AlertDialog alert = AlertDialog(
+    title: Text("Simple Alert"),
+    content: Text("This is an alert message."),
+    actions: [
+      okButton,
+    ],
+  );
+
+  // show the dialog
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
+}

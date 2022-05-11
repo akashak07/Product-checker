@@ -49,7 +49,7 @@ class MyApp extends StatelessWidget {
             );
           }
           else if(snapshot.hasData){
-            if(FirebaseAuth.instance.currentUser?.email == "akash@gmail.com"){
+            if(FirebaseAuth.instance.currentUser?.email == "owner@gmail.com"){
               return ChangeNotifierProvider(
                 create: (_) => ContractLink(),
                 child: MaterialApp(

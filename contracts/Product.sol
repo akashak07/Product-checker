@@ -6,6 +6,7 @@ contract Product{
     string public price;
     string public location;
 
+
     constructor() public {
             pname;
             mdate;
